@@ -1,0 +1,8 @@
+{
+  "Payment-Required": "true",
+  "X-Payment-Scheme": "x402",
+  "X-Payment-Amount": "0.05",
+  "X-Payment-Currency": "USDC",
+  "X-Payment-Network": "base-mainnet",
+  "Authorization": "Bearer secret-value"
+}
