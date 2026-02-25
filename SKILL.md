@@ -1,67 +1,51 @@
 ---
 name: x402-linter
-description: Lint and validate x402 payment headers/configs for APIs. Use for x402 compliance checks, header validation, and quick mock testing with safe defaults.
-metadata: {"openclaw":{"emoji":"💸","requires":{"bins":["node"]}}}
+description: Validate and lint x402 protocol artifacts (v1 and v2), including PAYMENT-REQUIRED / PAYMENT-SIGNATURE / PAYMENT-RESPONSE headers, route configs, and complete 402→payment→200 flows. Use when debugging x402 integration failures, auditing Coinbase/CDP-style payment handshakes, or verifying fixtures before deploying paid endpoints.
 ---
 
 # x402-linter
 
-Validate and lint x402 payment metadata with safe defaults for agent use.
+Validate x402 payloads and route configs with deterministic local checks.
 
-## Install
-
-```bash
-clawhub install x402-linter
-```
-
-or locally:
+## Quick Start
 
 ```bash
-cd {baseDir}
-npm install
+node {baseDir}/scripts/x402-linter.mjs x402_validate {baseDir}/scripts/fixtures/valid-v2-required.headers.json
+node {baseDir}/scripts/x402-linter.mjs x402_lint {baseDir}/scripts/fixtures/valid-config.routes.json
+node {baseDir}/scripts/x402-linter.mjs x402_test
 ```
 
 ## Commands
 
-### `x402_validate`
-Validate URL response headers or local header files.
+### 1) Validate headers, payloads, or full flows
 
-**Usage**
 ```bash
-node {baseDir}/cli.js x402_validate <url-or-file> [--json] [--timeout 5000] [--max-bytes 262144]
+node {baseDir}/scripts/x402-linter.mjs x402_validate <url-or-file> [--kind auto|payment-required|payment-signature|payment-response|flow] [--timeout 5000] [--max-bytes 262144] [--json]
 ```
 
-**Examples**
+Notes:
+- `--kind auto` detects payload type automatically.
+- URL mode enforces SSRF guards (no localhost/private IPs).
+- JSON output mode is recommended for agent pipelines.
+
+### 2) Lint route configuration
+
 ```bash
-node {baseDir}/cli.js x402_validate https://api.example.com/protected
-node {baseDir}/cli.js x402_validate ./examples/sample-headers.json --json
+node {baseDir}/scripts/x402-linter.mjs x402_lint <config.json> [--json]
 ```
 
-### `x402_lint`
-Lint x402 config/spec JSON for required fields and value sanity.
+Checks route key format, `accepts[]` completeness, and common UX metadata (`description`, `mimeType`).
 
-**Usage**
+### 3) Run fixture regression tests
+
 ```bash
-node {baseDir}/cli.js x402_lint <config.json> [--json]
+node {baseDir}/scripts/x402-linter.mjs x402_test [--json]
 ```
 
-**Examples**
-```bash
-node {baseDir}/cli.js x402_lint ./examples/sample-config.json
-node {baseDir}/cli.js x402_lint ./examples/sample-config.json --json
-```
+Runs a fixed suite with valid + invalid fixtures, including a realistic Coinbase-style weather payment flow.
 
-### `x402_test`
-Run mock internal test cases to verify the validator/linter behavior.
+## Fixtures + References
 
-**Usage**
-```bash
-node {baseDir}/cli.js x402_test [--mock] [--json]
-```
-
-## Safety Notes
-
-- SSRF protections block localhost, loopback, and private RFC1918 ranges by default.
-- Sensitive headers (`Authorization`, `X-Payment-Token`, cookies, API keys) are redacted from output.
-- HTTP requests use a 5s default timeout and response-size limits.
-- Prefer `--json` for agent pipelines and machine-readable checks.
+- Fixtures: `{baseDir}/scripts/fixtures/`
+- Test suite: `{baseDir}/scripts/tests/x402-linter.test.mjs`
+- Spec checklist: `{baseDir}/references/spec-checklist.md`

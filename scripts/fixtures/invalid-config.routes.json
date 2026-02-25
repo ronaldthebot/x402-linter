@@ -1,0 +1,14 @@
+{
+  "weather": {
+    "accepts": [
+      {
+        "scheme": "exact",
+        "price": "free",
+        "network": "base-mainnet",
+        "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "amount": "0"
+      }
+    ],
+    "mimeType": "json"
+  }
+}

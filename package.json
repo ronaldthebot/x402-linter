@@ -1,15 +1,17 @@
 {
   "name": "x402-linter-skill",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "OpenClaw skill for linting and validating x402 payment headers",
-  "type": "commonjs",
-  "main": "cli.js",
+  "type": "module",
+  "main": "scripts/x402-linter.mjs",
   "bin": {
-    "x402-linter": "cli.js"
+    "x402-linter": "scripts/x402-linter.mjs"
   },
   "scripts": {
-    "test": "node cli.js x402_test --mock",
-    "validate:sample": "node cli.js x402_validate examples/sample-headers.json"
+    "test": "node --test scripts/tests/*.test.mjs",
+    "test:cli": "node scripts/x402-linter.mjs x402_test",
+    "validate:v2": "node scripts/x402-linter.mjs x402_validate scripts/fixtures/valid-v2-required.headers.json",
+    "lint:config": "node scripts/x402-linter.mjs x402_lint scripts/fixtures/valid-config.routes.json"
   },
   "keywords": [
     "openclaw",
@@ -17,5 +19,8 @@
     "x402",
     "linter"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
 }
