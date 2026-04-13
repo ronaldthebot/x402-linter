@@ -116,3 +116,12 @@ Test fixtures live in `scripts/fixtures/`. All wallet addresses and contract add
 ## License
 
 MIT
+
+
+Short aliases also work:
+
+```bash
+node scripts/x402-linter.mjs validate scripts/fixtures/valid-v2-required.headers.json
+node scripts/x402-linter.mjs lint scripts/fixtures/valid-config.routes.json
+node scripts/x402-linter.mjs test
+```
