@@ -147,3 +147,28 @@ test("cli --version prints tool version", () => {
   assert.equal(result.status, 0);
   assert.match(result.stdout, /x402-linter 0\.1\.0/);
 });
+
+
+test("human validate output prints summary totals", () => {
+  const cliPath = path.join(__dirname, "..", "x402-linter.mjs");
+  const result = spawnSync(
+    process.execPath,
+    [cliPath, "x402_validate", fixture("valid-v2-required.headers.json"), "--kind", "payment-required"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /summary: errors=0 warnings=0/);
+});
+
+test("human lint output prints summary totals", () => {
+  const cliPath = path.join(__dirname, "..", "x402-linter.mjs");
+  const result = spawnSync(
+    process.execPath,
+    [cliPath, "x402_lint", fixture("invalid-config.routes.json")],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /summary: errors=3 warnings=4/);
+});
