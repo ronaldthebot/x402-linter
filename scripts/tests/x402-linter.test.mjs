@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
   runValidate,
@@ -136,4 +137,13 @@ test("edge-case: flow network mismatch is caught", () => {
   const result = validateFlowObject(flow);
   assert.equal(result.ok, false);
   assert.ok(result.issues.some(issue => issue.code === "FLOW_NETWORK_MISMATCH"));
+});
+
+
+test("cli --version prints tool version", () => {
+  const cliPath = path.join(__dirname, "..", "x402-linter.mjs");
+  const result = spawnSync(process.execPath, [cliPath, "--version"], { encoding: "utf8" });
+
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /x402-linter 0\.1\.0/);
 });

@@ -11,6 +11,7 @@ const __dirname = path.dirname(__filename);
 
 const DEFAULT_TIMEOUT_MS = 5000;
 const DEFAULT_MAX_BYTES = 256 * 1024;
+const TOOL_VERSION = "0.1.0";
 
 const STRICT_BASE64_REGEX = /^[A-Za-z0-9+/]+={0,2}$/;
 const RELAXED_BASE64_REGEX = /^[A-Za-z0-9+/_-]+={0,2}$/;
@@ -1165,6 +1166,11 @@ function printHuman(result) {
 }
 
 async function main() {
+  if (process.argv.includes("--version")) {
+    console.log(`x402-linter ${TOOL_VERSION}`);
+    return;
+  }
+
   const args = parseArgs(process.argv.slice(2));
   const command = normalizeCommand(args._[0]);
   const target = args._[1];
