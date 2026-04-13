@@ -1205,3 +1205,5 @@ if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
     process.exit(1);
   });
 }
+
+this is not valid javascript
