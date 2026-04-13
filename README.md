@@ -125,3 +125,6 @@ node scripts/x402-linter.mjs validate scripts/fixtures/valid-v2-required.headers
 node scripts/x402-linter.mjs lint scripts/fixtures/valid-config.routes.json
 node scripts/x402-linter.mjs test
 ```
+
+
+Reviewer note: docs-only changes should stay small and explicit.
