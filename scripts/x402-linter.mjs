@@ -1135,6 +1135,7 @@ function printHuman(result) {
         console.log(`- [${issue.level}] ${issue.code}${where}: ${issue.message}`);
       }
     }
+    console.log(`summary: errors=${result.result.errors} warnings=${result.result.warnings}`);
     return;
   }
 
@@ -1151,6 +1152,7 @@ function printHuman(result) {
         console.log(`- [${issue.level}] ${issue.code}${where}: ${issue.message}`);
       }
     }
+    console.log(`summary: errors=${result.result.errors} warnings=${result.result.warnings}`);
     return;
   }
 
